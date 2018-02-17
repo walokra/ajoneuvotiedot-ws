@@ -1,0 +1,47 @@
+---
+spring:
+  profiles: default
+  jpa:
+      generate-ddl: false
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+      database_platform: org.hibernate.dialect.PostgreSQL9Dialect
+  cloud:
+    config:
+      enabled: false
+      discovery:
+        enabled: false
+  jackson:
+    serialization:
+      write_dates_as_timestamps: false
+  http.multipart.enabled: false
+
+springfox.documentation.swagger.v2.path: /public/api-docs/
+
+service:
+  name: ${spring.application.name}
+  database-name: vehicledata
+
+#server configuration
+server:
+  contextPath: /${spring.application.name}
+
+session.timeout-mins: 1000
+
+environment:
+  mode: dev
+
+hikari:
+  jdbcUrl: jdbc:postgresql://localhost:32794/${service.database-name}
+  username: postgres
+  password:
+  minimumIdle: 10
+  maximumPoolSize: 10
+
+logging.level.fi.vm: DEBUG
+#logging.level.org.apache: INFO
+logging.level.org.apache.cxf: INFO
+#logging.level.org.springframework: INFO
+#logging.level.org.springframework.boot.test: DEBUG
+##logging.level.org.hibernate.SQL: DEBUG
+##logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE

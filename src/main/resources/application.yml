@@ -1,0 +1,68 @@
+---
+spring:
+  profiles: default
+  application:
+    name: vehicledata-ws
+  cloud:
+    config:
+      enabled: false
+    discovery:
+      enabled: false
+  jackson:
+    serialization:
+      write_dates_as_timestamps: false
+  jpa:
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      dialect: org.hibernate.dialect.PostgreSQL9Dialect
+    database_platform: org.hibernate.dialect.PostgreSQL9Dialect
+    naming_strategy: org.hibernate.cfg.DefaultNamingStrategy
+
+swagger.enabled: true
+springfox.documentation.swagger.v2.path: /public/api-docs/
+
+service:
+  name: ${spring.application.name}
+  database-name: vehicledata
+
+#== Environment setup ==
+environment:
+  postgres:
+    host: postgres
+    port: 5432
+
+#server configuration
+server:
+  port: 8080
+  contextPath: /${spring.application.name}
+
+session.timeout-mins: 1000
+
+hikari:
+  jdbcUrl: jdbc:postgresql://${environment.postgres.host}:${environment.postgres.port}/${service.database-name}
+  username: vehicledata
+  password: vehicledata
+  minimumIdle: 10
+  maximumPoolSize: 10
+
+info:
+  app:
+    name: Ajoneuvojen tekniset tiedot
+    description: ${info.app.name}, TraFin avointa dataa hyödyntävä palvelu.
+    version: 0.1.0
+
+# group all management endpoints under a single path
+management:
+  port: 1${server.port}
+  add-application-context-header: false
+
+# Actuator endpoints
+# autoconfig, beans, configprops, dump, env, health, info, metrics, mappings, shutdown, trace
+#endpoints:
+
+logging.level:
+  com.ruleoftech.vehicledata: DEBUG
+  org.springframework: WARN
+  org.apache.cxf: INFO

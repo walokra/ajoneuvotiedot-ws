@@ -1,0 +1,50 @@
+DROP materialized VIEW IF EXISTS tekniset_tiedot_mat_view;
+DROP VIEW IF EXISTS tekniset_tiedot_view;
+DROP TABLE IF EXISTS tekniset_tiedot;
+
+CREATE TABLE tekniset_tiedot (
+  ajoneuvoluokka varchar(255),
+  ensirekisterointipvm varchar(255),
+  ajoneuvoryhma integer,
+  ajoneuvonkaytto varchar(255),
+  variantti varchar(255),
+  versio varchar(255),
+  kayttoonottopvm integer,
+  vari varchar(255),
+  ovienLukumaara integer,
+  korityyppi varchar(255),
+  ohjaamotyyppi integer,
+  istumapaikkojenLkm integer,
+  omamassa integer,
+  teknSuurSallKokmassa integer,
+  tieliikSuurSallKokmassa integer,
+  ajonKokPituus integer,
+  ajonLeveys integer,
+  ajonKorkeus integer,
+  kayttovoima varchar(255),
+  iskutilavuus integer,
+  suurinNettoteho numeric,
+  sylintereidenLkm integer,
+  ahdin varchar(255),
+  sahkohybridi varchar(255),
+  merkkiSelvakielinen varchar(255),
+  mallimerkinta varchar(255),
+  vaihteisto varchar(255),
+  vaihteidenLkm integer,
+  kaupallinenNimi varchar(255),
+  voimanvalJaTehostamistapa varchar(255),
+  tyyppihyvaksyntanro varchar(255),
+  yksittaisKayttovoima varchar(255),
+  kunta varchar(255), 
+  co2 integer,
+  matkamittarilukema integer,
+  alue integer,
+  valmistenumero2 varchar(255),
+  jarnro BIGINT NOT NULL PRIMARY KEY UNIQUE
+);
+
+CREATE INDEX merkkiSelvakielinen_idx ON tekniset_tiedot(merkkiSelvakielinen);
+CREATE INDEX mallimerkinta_idx ON tekniset_tiedot(mallimerkinta);
+
+-- select column_name, data_type, character_maximum_length from INFORMATION_SCHEMA.COLUMNS where table_name = 'tekniset_tiedot';
+
