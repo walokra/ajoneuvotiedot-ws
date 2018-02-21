@@ -1,6 +1,8 @@
-# Ajoneuvotiedot
+# ajoneuvotiedot-ws
 
-PWA for Finnish TraFi's "vehicle technical information" open data.
+REST microservice for TraFi's "vehicle technical information" open data. 
+
+The vehicle data is processed to PostgeSQL database in separate project: [ajoneuvotiedot-db](https://github.com/walokra/ajoneuvotiedot-db).
 
 ## Technology
 
@@ -14,7 +16,7 @@ PWA for Finnish TraFi's "vehicle technical information" open data.
 
 ## Setting up environment
 
-Project has Docker and Ansible playbooks for setting up things and importing data.
+Project uses Docker for setting up and getting things rolling.
 
 ### Build requirements
 
@@ -32,14 +34,15 @@ $ brew install maven
 
 Install Docker
 ```
-$ TBD
+https://docs.docker.com/docker-for-mac/install/#download-docker-for-mac
 ```
 
 ## Running the application
 
-You have one choice to run the Project
+You have one choice to run the project
 
-* Build Docker image and run the container with DB
+* Build Docker images for the web service and database
+* Run the container with database
 
 ```
 $ docker-compose up
@@ -49,30 +52,30 @@ App should answer at:
 ```
 http://localhost:8080/vehicledata-ws/public/version/
 http://localhost:8080/vehicledata-ws/public/api-docs/
+http://localhost:8080/vehicledata-ws/v1/vehicles
 ```
 
 ## Run tests
 
 ```
+$ mvn docker:start -P postgres
+```
+
+```
+$ mvn clean verify
+```
+
+```
 $ mvn docker:stop -P postgres
 ```
 
-## Using Docker
-
-TBD
-
-# Other
-
-https://yle.fi/uutiset/3-10015086
-https://github.com/postgraphql/postgraphql
-https://github.com/graphcool/prisma
-
 ## TraFi open data
 
-TraFi's open data of vehicle information can be found from http://www.trafi.fi/tietopalvelut/avoin_data
+TraFi's open data of vehicle information can be found from [Open data at Trafi](https://www.trafi.fi/tietopalvelut/avoin_data). 
+Link points to Finnish version of the page which has (at the time of writing) newer data.
 
 # License
 
 Application: MIT
 
-TraFi's data: CC 4.0 (http://www.trafi.fi/tietopalvelut/avoin_data/avoimen_datan_lisenssi)
+TraFi's open data: CC 4.0 (https://www.trafi.fi/en/information_services/open_data/open_data_licence)
