@@ -1,20 +1,26 @@
 ---
 spring:
   profiles: default
-  jpa:
-      generate-ddl: false
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQL9Dialect
-      database_platform: org.hibernate.dialect.PostgreSQL9Dialect
+  application:
+    name: vehicledata-ws
   cloud:
     config:
       enabled: false
-      discovery:
-        enabled: false
+    discovery:
+      enabled: false
   jackson:
     serialization:
       write_dates_as_timestamps: false
-  http.multipart.enabled: false
+  jpa:
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      dialect: org.hibernate.dialect.PostgreSQL9Dialect
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    database_platform: org.hibernate.dialect.PostgreSQL9Dialect
+    naming_strategy: org.hibernate.cfg.DefaultNamingStrategy
 
 springfox.documentation.swagger.v2.path: /public/api-docs/
 
@@ -38,10 +44,10 @@ hikari:
   minimumIdle: 10
   maximumPoolSize: 10
 
-logging.level.fi.vm: DEBUG
+logging.level.com.ruleoftech: DEBUG
 #logging.level.org.apache: INFO
 logging.level.org.apache.cxf: INFO
 #logging.level.org.springframework: INFO
 #logging.level.org.springframework.boot.test: DEBUG
-##logging.level.org.hibernate.SQL: DEBUG
-##logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+#logging.level.org.hibernate.SQL: DEBUG
+#logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE

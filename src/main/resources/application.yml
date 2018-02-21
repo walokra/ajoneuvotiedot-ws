@@ -13,10 +13,12 @@ spring:
       write_dates_as_timestamps: false
   jpa:
     generate-ddl: false
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: none
       dialect: org.hibernate.dialect.PostgreSQL9Dialect
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     database_platform: org.hibernate.dialect.PostgreSQL9Dialect
     naming_strategy: org.hibernate.cfg.DefaultNamingStrategy
 
@@ -42,8 +44,8 @@ session.timeout-mins: 1000
 
 hikari:
   jdbcUrl: jdbc:postgresql://${environment.postgres.host}:${environment.postgres.port}/${service.database-name}
-  username: vehicledata
-  password: vehicledata
+  username: postgres
+  password:
   minimumIdle: 10
   maximumPoolSize: 10
 
@@ -66,3 +68,15 @@ logging.level:
   com.ruleoftech.vehicledata: DEBUG
   org.springframework: WARN
   org.apache.cxf: INFO
+
+---
+spring:
+  profiles: local
+
+
+hikari:
+  jdbcUrl: jdbc:postgresql://localhost:5432/${service.database-name}
+  username: postgres
+  password: postgres
+  minimumIdle: 10
+  maximumPoolSize: 10

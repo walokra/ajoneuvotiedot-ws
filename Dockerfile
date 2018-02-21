@@ -13,6 +13,9 @@ RUN set -x \
     && apk update && apk upgrade \
     && apk add --no-cache bash
 
+# Add scripts
+ADD scripts/bootstrap.sh /
+
 # Create directories
 RUN mkdir -p ${log_dir} \
     && mkdir -p ${deploy_dir}
@@ -25,4 +28,4 @@ ADD target/vehicledata-ws.jar ${deploy_dir}/vehicledata-ws.jar
 RUN bash -c 'touch ${deploy_dir}/vehicledata-ws.jar'
 
 # Set default command on run
-CMD ["java","-jar","vehicledata-ws.jar"]
+ENTRYPOINT ["/bootstrap.sh", "vehicledata-ws.jar"]

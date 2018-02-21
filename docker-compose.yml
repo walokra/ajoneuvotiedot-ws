@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+
+  postgres:
+    image: ruleoftech/vehicledata-db:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      #POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: vehicledata
+      SEED_DATABASE: "true"
+
+  vehicledata:
+    image: ruleoftech/vehicledata-ws:latest
+    ports:
+      - "8080:8080"
+    command: -j -Xmx256M -a --spring.profiles.active=default,local
+    links:
+      - postgres

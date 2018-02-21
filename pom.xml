@@ -290,7 +290,7 @@
                             <skip>${integration-tests.skip}</skip>
                             <images>
                                 <image>
-                                    <name>postgres:10-alpine</name>
+                                    <name>ruleoftech/vehicledata-db:latest</name>
                                     <alias>${project.artifactId}_it_database</alias>
                                     <run>
                                         <namingStrategy>alias</namingStrategy>
