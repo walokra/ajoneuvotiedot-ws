@@ -19,7 +19,7 @@ class VehicleDataServiceIT : AbstractIT() {
         measureTimeMillis {
             val (vehicles, _) = service.findAll(PageRequest.of(0, 100))
             assertThat(vehicles).isNotNull
-            println("vehicles[0]: ${vehicles!![0]}")
+            println("vehicles[0]: ${vehicles!!.content[0]}")
         }.apply { println("TOOK: $this ms") }
     }
 
@@ -28,7 +28,7 @@ class VehicleDataServiceIT : AbstractIT() {
         measureTimeMillis {
             val (vehicles, _) = service.findByModel("Volkswagen", PageRequest.of(0, 100))
             assertThat(vehicles).isNotNull
-            println("vehicles[0]: ${vehicles!![0]}")
+            println("vehicles[0]: ${vehicles!!.content[0]}")
         }.apply { println("TOOK: $this ms") }
     }
 

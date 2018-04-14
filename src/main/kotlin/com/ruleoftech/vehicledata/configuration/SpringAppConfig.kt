@@ -10,11 +10,16 @@ import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerF
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import java.time.Duration
 import java.time.format.DateTimeFormatter
 import java.util.TimeZone
 import javax.annotation.PostConstruct
 import javax.sql.DataSource
+
+
 
 @Configuration
 class SpringAppConfig(
@@ -34,6 +39,16 @@ class SpringAppConfig(
     @Bean
     fun dataSource(): DataSource = HikariDataSource()
 
+    @Bean
+    fun corsConfigurer(): WebMvcConfigurer {
+        return object : WebMvcConfigurerAdapter() {
+            override fun addCorsMappings(registry: CorsRegistry?) {
+                registry!!.addMapping("/v1/vehicles").allowedOrigins("http://localhost:4000")
+                registry!!.addMapping("/v1/statistics").allowedOrigins("http://localhost:4000")
+                registry!!.addMapping("/public/version").allowedOrigins("http://localhost:4000")
+            }
+        }
+    }
     @PostConstruct
     fun postConstruct() {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"))

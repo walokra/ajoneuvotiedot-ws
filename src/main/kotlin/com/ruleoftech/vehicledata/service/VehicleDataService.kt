@@ -7,6 +7,7 @@ import com.ruleoftech.vehicledata.exceptions.EntityNotFound
 import org.springframework.stereotype.Service
 
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import javax.transaction.Transactional
 
@@ -15,13 +16,13 @@ import javax.transaction.Transactional
 internal class VehicleDataService constructor(
     val repository: VehicleDataRepository) {
 
-    fun findAll(pageable: PageRequest): Result<List<TeknisetTiedotView>, Exception> =
+    fun findAll(pageable: PageRequest): Result<Page<TeknisetTiedotView>, Exception> =
         Result.of(
             repository
                 .findAllByOrderByJarnroAsc(pageable), EntityNotFound
         )
 
-    fun findByModel(model: String, pageable: PageRequest): Result<List<TeknisetTiedotView>, Exception> =
+    fun findByModel(model: String, pageable: PageRequest): Result<Page<TeknisetTiedotView>, Exception> =
         Result.of(
             repository
                 .findByMerkkiSelvakielinen(model, pageable), EntityNotFound

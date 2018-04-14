@@ -4,6 +4,7 @@ import com.github.kittinunf.result.map
 import com.ruleoftech.exp.ajotektiedot.service.VehicleDataService
 import com.ruleoftech.vehicledata.dto.TeknisetTiedotViewDto
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -26,7 +27,7 @@ class VehicleDataResource internal constructor(
     fun findAll(
         @RequestParam(required = true, defaultValue = "0") offset: Int,
         @RequestParam(required = true, defaultValue = "100") limit: Int
-    ): ResponseEntity<List<TeknisetTiedotViewDto>> {
+    ): ResponseEntity<Page<TeknisetTiedotViewDto>> {
         val pageable = PageRequest.of(offset, limit)
 
         return service.findAll(pageable)
@@ -44,7 +45,7 @@ class VehicleDataResource internal constructor(
         @PathVariable("model") model: String,
         @RequestParam(required = false, defaultValue = "0") offset: Int,
         @RequestParam(required = false, defaultValue = "100") limit: Int
-    ): ResponseEntity<List<TeknisetTiedotViewDto>> {
+    ): ResponseEntity<Page<TeknisetTiedotViewDto>> {
         log.debug(
             "{'method':'findByModel', 'params':{'merkki'='{}', 'offset'={}, 'limit'={}}", model, offset, limit)
         return service.findByModel(model, PageRequest.of(offset, limit))
