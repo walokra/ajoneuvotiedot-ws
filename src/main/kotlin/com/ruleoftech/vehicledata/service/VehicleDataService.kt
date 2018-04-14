@@ -1,14 +1,13 @@
 package com.ruleoftech.exp.ajotektiedot.service
 
 import com.github.kittinunf.result.*
-import com.ruleoftech.vehicledata.domain.TeknisetTiedot
 import com.ruleoftech.vehicledata.domain.TeknisetTiedotView
 import com.ruleoftech.vehicledata.domain.VehicleDataRepository
 import com.ruleoftech.vehicledata.exceptions.EntityNotFound
-import com.ruleoftech.vehicledata.extensions.OffsetLimitPageable
 import org.springframework.stereotype.Service
 
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.PageRequest
 import javax.transaction.Transactional
 
 @Service
@@ -16,13 +15,13 @@ import javax.transaction.Transactional
 internal class VehicleDataService constructor(
     val repository: VehicleDataRepository) {
 
-    fun findAll(pageable: OffsetLimitPageable): Result<List<TeknisetTiedotView>, Exception> =
+    fun findAll(pageable: PageRequest): Result<List<TeknisetTiedotView>, Exception> =
         Result.of(
             repository
                 .findAllByOrderByJarnroAsc(pageable), EntityNotFound
         )
 
-    fun findByModel(model: String, pageable: OffsetLimitPageable): Result<List<TeknisetTiedotView>, Exception> =
+    fun findByModel(model: String, pageable: PageRequest): Result<List<TeknisetTiedotView>, Exception> =
         Result.of(
             repository
                 .findByMerkkiSelvakielinen(model, pageable), EntityNotFound

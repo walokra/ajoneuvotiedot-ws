@@ -5,4 +5,4 @@ import org.springframework.stereotype.Component
 
 @Component
 @ConfigurationProperties(prefix = "session")
-data class SessionProperties(var timeoutMins: Int = 10)
+data class SessionProperties(var timeoutMins: Long = 10)

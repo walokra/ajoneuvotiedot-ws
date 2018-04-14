@@ -3,8 +3,8 @@ package com.ruleoftech.vehicledata
 import com.github.kittinunf.result.map
 import com.ruleoftech.exp.ajotektiedot.service.VehicleDataService
 import com.ruleoftech.vehicledata.dto.TeknisetTiedotViewDto
-import com.ruleoftech.vehicledata.extensions.OffsetLimitPageable
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -27,7 +27,7 @@ class VehicleDataResource internal constructor(
         @RequestParam(required = true, defaultValue = "0") offset: Int,
         @RequestParam(required = true, defaultValue = "100") limit: Int
     ): ResponseEntity<List<TeknisetTiedotViewDto>> {
-        val pageable = OffsetLimitPageable(offset, limit)
+        val pageable = PageRequest.of(offset, limit)
 
         return service.findAll(pageable)
             .map {
@@ -47,7 +47,7 @@ class VehicleDataResource internal constructor(
     ): ResponseEntity<List<TeknisetTiedotViewDto>> {
         log.debug(
             "{'method':'findByModel', 'params':{'merkki'='{}', 'offset'={}, 'limit'={}}", model, offset, limit)
-        return service.findByModel(model, OffsetLimitPageable(offset, limit))
+        return service.findByModel(model, PageRequest.of(offset, limit))
             .map {
                 it.map {
                     it.toDto()

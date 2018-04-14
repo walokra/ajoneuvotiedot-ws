@@ -4,15 +4,15 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
 import com.ruleoftech.vehicledata.properties.AppProperties
 import com.ruleoftech.vehicledata.properties.SessionProperties
 import com.zaxxer.hikari.HikariDataSource
-import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory
-import org.springframework.boot.context.embedded.jetty.JettyEmbeddedServletContainerFactory
 import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.web.embedded.jetty.JettyServletWebServerFactory
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
+import java.time.Duration
 import java.time.format.DateTimeFormatter
 import java.util.TimeZone
-import java.util.concurrent.TimeUnit
 import javax.annotation.PostConstruct
 import javax.sql.DataSource
 
@@ -23,10 +23,10 @@ class SpringAppConfig(
         val builder: Jackson2ObjectMapperBuilder) {
 
     @Bean
-    fun servletContainer(): EmbeddedServletContainerFactory {
-        val factory = JettyEmbeddedServletContainerFactory()
-        factory.setSessionTimeout(sessionProperties.timeoutMins, TimeUnit.MINUTES)
-        factory.contextPath = appProperties.contextPath
+    fun webServerFactory(): ConfigurableServletWebServerFactory {
+        val factory = JettyServletWebServerFactory()
+        factory.session.timeout = Duration.ofMinutes(sessionProperties.timeoutMins)
+        factory.contextPath = appProperties.servlet.contextPath
         return factory
     }
 

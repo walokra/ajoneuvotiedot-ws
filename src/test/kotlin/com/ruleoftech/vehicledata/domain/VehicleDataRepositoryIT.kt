@@ -25,10 +25,10 @@
 package com.ruleoftech.vehicledata.domain
 
 import com.ruleoftech.vehicledata.AbstractIT
-import com.ruleoftech.vehicledata.extensions.OffsetLimitPageable
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.PageRequest
 import kotlin.system.measureTimeMillis
 
 class VehicleDataRepositoryIT : AbstractIT() {
@@ -95,7 +95,7 @@ class VehicleDataRepositoryIT : AbstractIT() {
     fun `find all should return list`() {
         measureTimeMillis {
             val fetched = repository
-                .findAllByOrderByJarnroAsc(OffsetLimitPageable(0, 100))
+                .findAllByOrderByJarnroAsc(PageRequest.of(0, 100))
 
             assertThat(fetched).isNotNull
             assertThat(fetched).isNotEmpty
@@ -107,7 +107,7 @@ class VehicleDataRepositoryIT : AbstractIT() {
     fun `if vehicle model is not found return null`() {
         measureTimeMillis {
             val fetched = repository
-                .findByMerkkiSelvakielinen("BMW", OffsetLimitPageable(0, 100))
+                .findByMerkkiSelvakielinen("BMW", PageRequest.of(0, 100))
 
             assertThat(fetched).isNotNull()
         }.apply { println("TOOK: $this ms") }

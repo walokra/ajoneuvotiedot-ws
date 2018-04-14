@@ -14,6 +14,8 @@ spring:
   jpa:
     generate-ddl: false
     show-sql: false
+    # Caused by: java.sql.SQLFeatureNotSupportedException: Method org.postgresql.jdbc.PgConnection.createClob() is not yet implemented. See: https://github.com/spring-projects/spring-boot/issues/12007
+    properties.hibernate.jdbc.lob.non_contextual_creation: true
     hibernate:
       ddl-auto: none
       dialect: org.hibernate.dialect.PostgreSQL9Dialect
@@ -38,7 +40,8 @@ environment:
 #server configuration
 server:
   port: 8080
-  contextPath: /${spring.application.name}
+  servlet:
+    context-path: /${spring.application.name}
 
 session.timeout-mins: 1000
 
@@ -57,17 +60,20 @@ info:
 
 # group all management endpoints under a single path
 management:
-  port: 1${server.port}
-  add-application-context-header: false
-
-# Actuator endpoints
-# autoconfig, beans, configprops, dump, env, health, info, metrics, mappings, shutdown, trace
-management.security.enabled: false
-endpoints.health.sensitive: true # Mark if the endpoint exposes sensitive information.
-management.health:
- db.enabled: true # Enable database health check.
- defaults.enabled: true # Enable default health indicators.
- diskspace.enabled: true # Enable disk space health check.
+  server:
+    port: 18080
+    ssl.enabled: false
+    add-application-context-header: false
+  endpoints.web.base-path: /
+  # Actuator endpoints
+  # autoconfig, beans, configprops, dump, env, health, info, metrics, mappings, shutdown, trace
+  info:
+    sensitive: false
+  health:
+    sensitive: false
+    db.enabled: true # Enable database health check.
+    defaults.enabled: true # Enable default health indicators.
+    diskspace.enabled: true # Enable disk space health check.
 
 logging.level:
   com.ruleoftech.vehicledata: DEBUG
@@ -77,7 +83,6 @@ logging.level:
 ---
 spring:
   profiles: local
-
 
 hikari:
   jdbcUrl: jdbc:postgresql://localhost:5432/${service.database-name}

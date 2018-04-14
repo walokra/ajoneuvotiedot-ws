@@ -2,10 +2,10 @@ package com.ruleoftech.vehicledata.service
 
 import com.ruleoftech.exp.ajotektiedot.service.VehicleDataService
 import com.ruleoftech.vehicledata.AbstractIT
-import com.ruleoftech.vehicledata.extensions.OffsetLimitPageable
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.PageRequest
 import kotlin.system.measureTimeMillis
 
 class VehicleDataServiceIT : AbstractIT() {
@@ -17,7 +17,7 @@ class VehicleDataServiceIT : AbstractIT() {
     @Test
     fun `get vehicles`() {
         measureTimeMillis {
-            val (vehicles, _) = service.findAll(OffsetLimitPageable(0, 100))
+            val (vehicles, _) = service.findAll(PageRequest.of(0, 100))
             assertThat(vehicles).isNotNull
             println("vehicles[0]: ${vehicles!![0]}")
         }.apply { println("TOOK: $this ms") }
@@ -26,7 +26,7 @@ class VehicleDataServiceIT : AbstractIT() {
     @Test
     fun `get vehicle by model`() {
         measureTimeMillis {
-            val (vehicles, _) = service.findByModel("Volkswagen", OffsetLimitPageable(0, 100))
+            val (vehicles, _) = service.findByModel("Volkswagen", PageRequest.of(0, 100))
             assertThat(vehicles).isNotNull
             println("vehicles[0]: ${vehicles!![0]}")
         }.apply { println("TOOK: $this ms") }

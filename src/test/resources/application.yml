@@ -30,7 +30,8 @@ service:
 
 #server configuration
 server:
-  contextPath: /${spring.application.name}
+  servlet:
+    contextPath: /${spring.application.name}
 
 session.timeout-mins: 1000
 
