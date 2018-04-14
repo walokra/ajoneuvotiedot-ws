@@ -62,7 +62,12 @@ management:
 
 # Actuator endpoints
 # autoconfig, beans, configprops, dump, env, health, info, metrics, mappings, shutdown, trace
-#endpoints:
+management.security.enabled: false
+endpoints.health.sensitive: true # Mark if the endpoint exposes sensitive information.
+management.health:
+ db.enabled: true # Enable database health check.
+ defaults.enabled: true # Enable default health indicators.
+ diskspace.enabled: true # Enable disk space health check.
 
 logging.level:
   com.ruleoftech.vehicledata: DEBUG

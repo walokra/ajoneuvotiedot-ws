@@ -53,6 +53,8 @@ App should answer at:
 http://localhost:8080/vehicledata-ws/public/version/
 http://localhost:8080/vehicledata-ws/public/api-docs/
 http://localhost:8080/vehicledata-ws/v1/vehicles
+http://localhost:8080/vehicledata-ws/v1/vehicles?offset=0&limit=100
+http://localhost:8080/vehicledata-ws/v1/statistics/total/?model=BMW
 ```
 
 ## Run tests
