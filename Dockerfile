@@ -1,4 +1,19 @@
-FROM java:8-jre-alpine
+#
+# Build stage
+#
+FROM maven:3.5-jdk-8 AS build
+
+COPY .git /usr/src/app/.git
+COPY libs /usr/src/app/libs
+COPY src /usr/src/app/src
+COPY pom.xml /usr/src/app
+
+RUN mvn -f /usr/src/app/pom.xml clean package
+
+#
+# Run stage
+#
+FROM openjdk:8-jre-alpine
 
 # Default to UTF-8 file.encoding
 ENV LANG C.UTF-8
@@ -22,10 +37,9 @@ RUN mkdir -p ${log_dir} \
 
 WORKDIR ${deploy_dir}
 
-# Deploy project
-ADD target/vehicledata-ws.jar ${deploy_dir}/vehicledata-ws.jar
+COPY --from=build /usr/src/app/target/vehicledata-ws.jar ${deploy_dir}/vehicledata-ws.jar
 
-RUN bash -c 'touch ${deploy_dir}/vehicledata-ws.jar'
+EXPOSE 8080
 
 # Set default command on run
 ENTRYPOINT ["/bootstrap.sh", "vehicledata-ws.jar"]
